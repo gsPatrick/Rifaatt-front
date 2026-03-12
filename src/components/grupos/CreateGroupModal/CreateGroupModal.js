@@ -6,6 +6,7 @@ import Input from '@/components/ui/Input/Input';
 import Button from '@/components/ui/Button/Button';
 import { Smartphone, Hash, Users, Laptop } from 'lucide-react';
 import styles from './CreateGroupModal.module.css';
+import clsx from 'clsx';
 
 import api from '@/services/api';
 
