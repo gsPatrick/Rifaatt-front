@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout/DashboardLayout';
 import InstanciaCard from '@/components/instancia/InstanciaCard/InstanciaCard';
 import ConexaoModal from '@/components/instancia/ConexaoModal/ConexaoModal';
