@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout/DashboardLayout';
 import Card from '@/components/ui/Card/Card';
 import Button from '@/components/ui/Button/Button';
@@ -13,6 +13,12 @@ import Link from 'next/link';
 
 import api from '@/services/api';
 import Skeleton from '@/components/ui/Skeleton/Skeleton';
+
+const statusStyles = {
+    active: { label: 'Ativo', color: 'success', icon: CheckCircle },
+    inactive: { label: 'Inativo', color: 'danger', icon: XCircle },
+    pending: { label: 'Pendente', color: 'warning', icon: AlertTriangle }
+};
 
 export default function GruposPage() {
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
