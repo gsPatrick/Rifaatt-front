@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LogIn, UserPlus, Mail, Lock, User, Smartphone } from 'lucide-react';
@@ -11,7 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 import styles from './page.module.css';
 import Image from 'next/image';
 
-export default function LoginPage() {
+function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const initialMode = searchParams.get('tab') === 'register' ? 'register' : 'login';
@@ -215,4 +215,16 @@ export default function LoginPage() {
 
 function clsx(...args) {
     return args.filter(Boolean).join(' ');
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={
+            <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                Carregando...
+            </div>
+        }>
+            <LoginContent />
+        </Suspense>
+    );
 }

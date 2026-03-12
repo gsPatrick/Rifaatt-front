@@ -108,6 +108,18 @@
     gap: var(--space-4);
 }
 
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.label {
+    font-size: var(--font-body-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
 .phoneInput {
     height: 52px;
     background-color: var(--bg-surface-saturate);

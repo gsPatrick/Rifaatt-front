@@ -16,6 +16,8 @@ const ConexaoModal = ({ isOpen, onClose, instance, onSuccess }) => {
     const [pairingCode, setPairingCode] = useState(null);
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
+    const [apiUrl, setApiUrl] = useState('https://api.uazapi.com');
+    const [adminToken, setAdminToken] = useState('');
     const [currentInstance, setCurrentInstance] = useState(instance);
 
     useEffect(() => {
@@ -27,6 +29,8 @@ const ConexaoModal = ({ isOpen, onClose, instance, onSuccess }) => {
             } else {
                 setCurrentInstance(null);
                 setName('');
+                setApiUrl('https://api.uazapi.com');
+                setAdminToken('');
                 setQrBase64(null);
                 setPairingCode(null);
             }
@@ -53,10 +57,10 @@ const ConexaoModal = ({ isOpen, onClose, instance, onSuccess }) => {
     };
 
     const handleCreate = async () => {
-        if (!name) return;
+        if (!name || !apiUrl || !adminToken) return;
         setLoading(true);
         try {
-            const response = await api.post('/instances', { name });
+            const response = await api.post('/instances', { name, apiUrl, adminToken });
             setCurrentInstance(response.data);
             startConnection(response.data.id);
         } catch (error) {
@@ -101,16 +105,51 @@ const ConexaoModal = ({ isOpen, onClose, instance, onSuccess }) => {
                     <div className={styles.initSection}>
                         <div className={styles.infoBox}>
                             <Info size={18} />
-                            <p>Dê um nome para sua nova instância para identificá-la melhor.</p>
+                            <p>Configure sua instância conectando-se ao seu servidor Uazapi.</p>
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Ex: WhatsApp Vendas"
-                            className={styles.phoneInput}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                        <Button fullWidth onClick={handleCreate} loading={loading}>Criar Instância</Button>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Nome da Instância</label>
+                            <input
+                                type="text"
+                                placeholder="Ex: WhatsApp Vendas"
+                                className={styles.phoneInput}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>URL da API (Uazapi)</label>
+                            <input
+                                type="text"
+                                placeholder="https://api.uazapi.com"
+                                className={styles.phoneInput}
+                                value={apiUrl}
+                                onChange={(e) => setApiUrl(e.target.value)}
+                            />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label className={styles.label}>Admin Token (Global)</label>
+                            <input
+                                type="password"
+                                placeholder="Seu admin token do Uazapi"
+                                className={styles.phoneInput}
+                                value={adminToken}
+                                onChange={(e) => setAdminToken(e.target.value)}
+                            />
+                        </div>
+
+                        <Button
+                            fullWidth
+                            onClick={handleCreate}
+                            loading={loading}
+                            disabled={!name || !apiUrl || !adminToken}
+                            style={{ marginTop: '1rem' }}
+                        >
+                            Criar e Conectar
+                        </Button>
                     </div>
                 ) : (
                     <>

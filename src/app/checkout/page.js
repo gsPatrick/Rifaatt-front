@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
@@ -38,7 +38,7 @@ const PLANS = {
     }
 };
 
-export default function CheckoutPage() {
+function CheckoutContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const initialPlan = searchParams.get('plan') || 'pro';
@@ -173,3 +173,23 @@ export default function CheckoutPage() {
         </div>
     );
 }
+
+export default function CheckoutPage() {
+    return (
+        <Suspense fallback={
+            <div style={{
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'var(--bg-main)',
+                color: 'var(--text-main)'
+            }}>
+                Carregando checkout...
+            </div>
+        }>
+            <CheckoutContent />
+        </Suspense>
+    );
+}
+
